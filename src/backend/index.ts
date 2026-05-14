@@ -2,6 +2,7 @@ import { FlexPluginBase } from '@flexsdk/runtime';
 import type { PluginDefinitionsPayload, PluginEventEnvelope, PluginLoadContext } from '@flexsdk/types';
 
 const PLUGIN_UUID = '@ENIAC-Tech/flex-plugin-test-b';
+const PLUGIN_C_UUID = '@ENIAC-Tech/flex-plugin-test-c';
 const UNIT_TYPE_ID = `${PLUGIN_UUID}.example-unit`;
 
 export default class FlexPluginTestBPlugin extends FlexPluginBase {
@@ -28,6 +29,22 @@ export default class FlexPluginTestBPlugin extends FlexPluginBase {
   async onLoad(ctx: PluginLoadContext): Promise<void> {
     await super.onLoad(ctx);
     this.logger.info('Plugin loaded');
+
+    this.registerDependencyApi('getDependencyApiProbe', async (input?: string) => {
+      const probeInput = input ?? 'from-b';
+      const dependency = await ctx.hostApi.plugin.callDependency(
+        PLUGIN_C_UUID,
+        'getDependencyApiProbe',
+        [probeInput]
+      );
+
+      return {
+        plugin: 'b',
+        input: probeInput,
+        dependency,
+        message: 'hello-from-b'
+      };
+    });
 
     this.registerRendererRpc('getMessage', async () => {
       return ctx.hostApi.store.get('message', 'Hello from plugin!');
