@@ -16,7 +16,7 @@ export default class FlexPluginTestBPlugin extends FlexPluginBase {
           name: 'Example Unit',
           categoryId: 'plugin',
           icon: 'mdi-puzzle',
-          hasFunctionEditor: true,
+          hasFunctionEditor: true, functionEditorScope: 'unit' as const,
           hasAppearanceEditor: true,
           hasView: false,
           defaultData: { message: 'Hello from plugin!' }
