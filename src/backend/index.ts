@@ -1,3 +1,4 @@
+import { buildDefaultAppearance, titleIconPresentationV1 } from '@flexsdk/runtime';
 import { FlexPluginBase } from '@flexsdk/runtime';
 import type { PluginDefinitionsPayload, PluginEventEnvelope, PluginLoadContext } from '@flexsdk/types';
 
@@ -16,8 +17,9 @@ export default class FlexPluginTestBPlugin extends FlexPluginBase {
           name: 'Example Unit',
           categoryId: 'plugin',
           icon: 'mdi-puzzle',
-          hasFunctionEditor: true, functionEditorScope: 'unit' as const,
-          hasAppearanceEditor: true,
+          requirements: { deviceCapabilities: [] },
+          presentation: titleIconPresentationV1({ textId: 'c107c69e', iconId: 'de833d24', colorIds: ['c107c69e', 'de833d24'], fonts: ['c107c69e'], elementTypes: ['text', 'icon', 'image'], functionEditors: [{ kind: 'plugin', pluginUUID: PLUGIN_UUID, typeId: UNIT_TYPE_ID, scope: 'unit' }], commonSettings: ['activation', 'wireless'], surface: 'captured-unit', theme: { mode: 'generic', userThemes: 'editable' } }),
+          layouts: { default: { preferredSize: { width: 1, height: 1 }, appearance: buildDefaultAppearance('mdi-puzzle', 'Example Unit') } },
           hasView: false,
           defaultData: { message: 'Hello from plugin!' }
         })
